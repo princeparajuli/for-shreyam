@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Friendly Materials</title>
+    <style>
+        .material { margin: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; }
+        .material:hover { background-color: #f0f0f0; }
+        .details { margin-top: 10px; padding: 10px; background-color: #e9e9e9; display: none; }
+        #slider { width: 100%; }
+        #goalValue { margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Eco-Friendly Building Materials</h1>
+
+<!-- Sustainable Goal Slider -->
+<label for="goalSlider">Set your Sustainable Goal: </label>
+<input type="range" id="goalSlider" min="0" max="100" value="50">
+<p id="goalValue">Goal: 50%</p>
+
+<!-- Material List -->
+<ul id="materialList"></ul>
+
+<script>
+    const materials = [
+        { name: "Cork", overview: "Lightweight, renewable, and highly insulating.", application: "Used in flooring, insulation, and soundproofing.", ecoScore: 90 },
+        { name: "Coffee Husk", overview: "Repurposed from coffee waste, it offers excellent insulation.", application: "Used in eco-friendly building insulation.", ecoScore: 85 },
+        { name: "Newspaper Wood", overview: "Made from recycled paper, it’s strong and versatile.", application: "Used in furniture, flooring, and paneling.", ecoScore: 80 },
+        { name: "Mycelium", overview: "Fungi-derived, biodegradable, and pest-resistant.", application: "Used in insulation and packaging materials.", ecoScore: 95 },
+        { name: "Green Algae", overview: "Grows quickly and can be used in eco-friendly building materials.", application: "Used in bio-composite materials.", ecoScore: 85 },
+        { name: "Cob", overview: "Natural mix of earth, straw, and water for temperature regulation.", application: "Used in traditional earth-based homes.", ecoScore: 80 },
+        { name: "Plastic", overview: "Recycled plastic, durable and eco-conscious.", application: "Used in recycled plastic bricks.", ecoScore: 60 },
+        { name: "Bamboo", overview: "Fast-growing, strong, and sustainable.", application: "Used in scaffolding, flooring, and furniture.", ecoScore: 90 },
+        { name: "Seaweed", overview: "A renewable resource, minimal energy for production.", application: "Used in biodegradable insulation and bio-plastics.", ecoScore: 95 }
+    ];
+
+    // Function to display materials based on the sustainable goal percentage
+    function displayMaterials() {
+        const goalValue = document.getElementById("goalSlider").value;
+        document.getElementById("goalValue").innerText = `Goal: ${goalValue}%`;
+
+        // Filter materials based on their ecoScore
+        const filteredMaterials = materials.filter(m => m.ecoScore >= (goalValue / 100) * 100);
+
+        const materialList = document.getElementById("materialList");
+        materialList.innerHTML = ''; // Clear the previous list
+
+        // Display materials based on the goal
+        filteredMaterials.forEach(m => {
+            const li = document.createElement("li");
+            li.classList.add("material");
+            li.innerText = m.name;
+
+            const details = document.createElement("div");
+            details.classList.add("details");
+            details.innerHTML = `<p><strong>Overview:</strong> ${m.overview}</p><p><strong>Application:</strong> ${m.application}</p>`;
+
+            li.onclick = function () {
+                details.style.display = details.style.display === 'block' ? 'none' : 'block';
+            };
+
+            li.appendChild(details);
+            materialList.appendChild(li);
+        });
+
+        // Check if the goal is below 40% and show alert
+        if (goalValue <= 40) {
+            alert("It's crucial to meet your sustainable goal! Reducing environmental impact through eco-friendly materials is essential for a greener future. Let's work together to improve sustainability.");
+        }
+
+        // Suggest additional eco-friendly materials if the goal is more than 95%
+        if (goalValue > 95) {
+            alert("Excellent! You're on track to make a significant positive impact on the environment. Here are some additional eco-friendly materials to consider for a fully sustainable future.");
+        }
+    }
+
+    // Initial material display on page load
+    displayMaterials();
+
+    // Event listener for slider change
+    document.getElementById("goalSlider").addEventListener("input", displayMaterials);
+</script>
+
+</body>
+</html>
